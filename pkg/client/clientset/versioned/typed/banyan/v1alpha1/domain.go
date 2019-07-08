@@ -19,7 +19,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	scheme "client/clientset/versioned/scheme"
+	scheme "pkg/client/clientset/versioned/scheme"
 	"time"
 
 	v1alpha1 "github.com/cristian-radu/banyan/pkg/apis/banyan/v1alpha1"

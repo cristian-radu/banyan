@@ -19,13 +19,13 @@ limitations under the License.
 package externalversions
 
 import (
-	banyan "client/informers/externalversions/banyan"
-	internalinterfaces "client/informers/externalversions/internalinterfaces"
+	banyan "pkg/client/informers/externalversions/banyan"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	reflect "reflect"
 	sync "sync"
 	time "time"
 
-	versioned "./client/clientset/versioned"
+	versioned "./pkg/client/clientset/versioned"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

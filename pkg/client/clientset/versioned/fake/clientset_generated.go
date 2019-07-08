@@ -19,9 +19,9 @@ limitations under the License.
 package fake
 
 import (
-	clientset "client/clientset/versioned"
-	banyanv1alpha1 "client/clientset/versioned/typed/banyan/v1alpha1"
-	fakebanyanv1alpha1 "client/clientset/versioned/typed/banyan/v1alpha1/fake"
+	clientset "pkg/client/clientset/versioned"
+	banyanv1alpha1 "pkg/client/clientset/versioned/typed/banyan/v1alpha1"
+	fakebanyanv1alpha1 "pkg/client/clientset/versioned/typed/banyan/v1alpha1/fake"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"

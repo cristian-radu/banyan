@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	internalinterfaces "client/informers/externalversions/internalinterfaces"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	time "time"
 
-	versioned "./client/clientset/versioned"
-	v1alpha1 "./client/listers/banyan/v1alpha1"
+	versioned "./pkg/client/clientset/versioned"
+	v1alpha1 "./pkg/client/listers/banyan/v1alpha1"
 	banyanv1alpha1 "github.com/cristian-radu/banyan/pkg/apis/banyan/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"

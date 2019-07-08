@@ -15,7 +15,7 @@ code-gen-download:
 
 code-gen-run: code-gen-download
 	chmod +x $(CODE_GEN_PATH)/generate-groups.sh
-	$(CODE_GEN_PATH)/generate-groups.sh all ./client $(APIS_PATH) $(BINARY_NAME):$(API_VERSION) -o ./
+	$(CODE_GEN_PATH)/generate-groups.sh all ./pkg/client $(APIS_PATH) $(BINARY_NAME):$(API_VERSION) -o ./
 	mv $(CURDIR)/$(APIS_PATH)/$(BINARY_NAME)/$(API_VERSION)/zz_generated.deepcopy.go $(CURDIR)/pkg/apis/$(BINARY_NAME)/$(API_VERSION)
 	rm -rf $(CURDIR)/github.com
 
