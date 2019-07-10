@@ -12,12 +12,18 @@ type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec DomainSpec `json:"spec"`
+	Spec   DomainSpec   `json:"spec"`
+	Status DomainStatus `json:"status"`
 }
 
 // DomainSpec is the spec for a Domain resource
 type DomainSpec struct {
 	Name string `json:"name"`
+}
+
+// DomainStatus describes the status of a Domain resource
+type DomainStatus struct {
+	Registration string `json:"registration"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
