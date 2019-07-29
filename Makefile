@@ -1,26 +1,12 @@
 BINARY_NAME=banyan
-
-API_VERSION=v1alpha1
-APIS_PATH=github.com/cristian-radu/$(BINARY_NAME)/pkg/apis
-
-CODE_GEN_DIR=$(shell grep k8s.io/code-generator go.mod | sed -E -e 's/^[[:blank:]]|[[:blank:]]$$//' -e s'/[[:blank:]]/@/')
-CODE_GEN_PATH=${GOPATH}/pkg/mod/$(CODE_GEN_DIR)
-
-GIT_COMMIT=$(shell git log -1 --format=%h)
-
 IMAGE_REGISTRY=cristianradu
+LAST_GIT_COMMIT_ID=$(shell git log -1 --format=%h)
 
-code-gen-download:
-	go mod download k8s.io/code-generator
+generate-code:
+	bash $(CURDIR)/build/code-gen.sh
 
-code-gen-run: code-gen-download
-	chmod +x $(CODE_GEN_PATH)/generate-groups.sh
-	$(CODE_GEN_PATH)/generate-groups.sh all ./pkg/client $(APIS_PATH) $(BINARY_NAME):$(API_VERSION) -o ./
-	mv $(CURDIR)/$(APIS_PATH)/$(BINARY_NAME)/$(API_VERSION)/zz_generated.deepcopy.go $(CURDIR)/pkg/apis/$(BINARY_NAME)/$(API_VERSION)
-	rm -rf $(CURDIR)/github.com
-
-docker-build:
-	docker build . -t $(IMAGE_REGISTRY)/$(BINARY_NAME):$(GIT_COMMIT)
+docker-build: generate-code
+	docker build . -t $(IMAGE_REGISTRY)/$(BINARY_NAME):$(LAST_GIT_COMMIT_ID)
 
 docker-push: docker-build
-	docker push $(IMAGE_REGISTRY)/$(BINARY_NAME):$(GIT_COMMIT)
+	docker push $(IMAGE_REGISTRY)/$(BINARY_NAME):$(LAST_GIT_COMMIT_ID)
