@@ -19,10 +19,9 @@ limitations under the License.
 package fake
 
 import (
-	clientset "pkg/client/clientset/versioned"
-	banyanv1alpha1 "pkg/client/clientset/versioned/typed/banyan/v1alpha1"
-	fakebanyanv1alpha1 "pkg/client/clientset/versioned/typed/banyan/v1alpha1/fake"
-
+	clientset "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned"
+	banyanv1alpha1 "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned/typed/banyan/v1alpha1"
+	fakebanyanv1alpha1 "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned/typed/banyan/v1alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

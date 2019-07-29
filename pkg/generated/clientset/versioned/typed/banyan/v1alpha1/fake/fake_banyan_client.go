@@ -19,8 +19,7 @@ limitations under the License.
 package fake
 
 import (
-	v1alpha1 "pkg/client/clientset/versioned/typed/banyan/v1alpha1"
-
+	v1alpha1 "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned/typed/banyan/v1alpha1"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )

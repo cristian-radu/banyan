@@ -19,9 +19,8 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"pkg/client/clientset/versioned/scheme"
-
 	v1alpha1 "github.com/cristian-radu/banyan/pkg/apis/banyan/v1alpha1"
+	"github.com/cristian-radu/banyan/pkg/generated/clientset/versioned/scheme"
 	rest "k8s.io/client-go/rest"
 )
 

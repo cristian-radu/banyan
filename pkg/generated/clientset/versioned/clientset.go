@@ -19,8 +19,7 @@ limitations under the License.
 package versioned
 
 import (
-	banyanv1alpha1 "pkg/client/clientset/versioned/typed/banyan/v1alpha1"
-
+	banyanv1alpha1 "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned/typed/banyan/v1alpha1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"

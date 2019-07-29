@@ -19,8 +19,8 @@ limitations under the License.
 package banyan
 
 import (
-	v1alpha1 "pkg/client/informers/externalversions/banyan/v1alpha1"
-	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
+	v1alpha1 "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions/banyan/v1alpha1"
+	internalinterfaces "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.
