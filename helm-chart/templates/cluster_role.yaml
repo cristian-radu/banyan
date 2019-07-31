@@ -11,3 +11,9 @@ rules:
       - customresourcedefinitions
     verbs:
       - '*'
+  - apiGroups:
+      - "banyan.argonauts.dev"
+    resources:
+      - domains
+    verbs:
+      - '*'
