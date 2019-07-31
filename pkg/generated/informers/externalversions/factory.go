@@ -23,7 +23,7 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "./github.com/cristian-radu/banyan/pkg/generated/clientset/versioned"
+	versioned "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned"
 	banyan "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions/banyan"
 	internalinterfaces "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions/internalinterfaces"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"

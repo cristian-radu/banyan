@@ -21,10 +21,10 @@ package v1alpha1
 import (
 	time "time"
 
-	versioned "./github.com/cristian-radu/banyan/pkg/generated/clientset/versioned"
-	v1alpha1 "./github.com/cristian-radu/banyan/pkg/generated/listers/banyan/v1alpha1"
 	banyanv1alpha1 "github.com/cristian-radu/banyan/pkg/apis/banyan/v1alpha1"
+	versioned "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned"
 	internalinterfaces "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions/internalinterfaces"
+	v1alpha1 "github.com/cristian-radu/banyan/pkg/generated/listers/banyan/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
