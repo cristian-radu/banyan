@@ -11,29 +11,35 @@ import (
 	clientset "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned"
 	informers "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions"
 
+	log "github.com/sirupsen/logrus"
 	apiextensionsv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	"k8s.io/klog"
 )
+
+func init() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
+}
 
 func main() {
 
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		klog.Fatalf("Error building kubeconfig: %s", err.Error())
+		log.Fatalf("Error building kubeconfig: %s", err.Error())
 	}
 
 	kubeClient, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		klog.Fatalf("Error building kubernetes clientset: %s", err.Error())
+		log.Fatalf("Error building kubernetes clientset: %s", err.Error())
 	}
 
 	banyanClient, err := clientset.NewForConfig(config)
 	if err != nil {
-		klog.Fatalf("Error building domain clientset: %s", err.Error())
+		log.Fatalf("Error building domain clientset: %s", err.Error())
 	}
 
 	apiextensionsClient, err := apiextensionsclientset.NewForConfig(config)
@@ -56,19 +62,19 @@ func main() {
 	)
 
 	if err != nil {
-		klog.Fatalf("Error creating the domain controller: %s", err.Error())
+		log.Fatalf("Error creating the domain controller: %s", err.Error())
 	}
 
 	domainInformerFactory.Start(stopCh)
 	domainInformerFactory.WaitForCacheSync(stopCh)
-	
+
 	// ToDo: configurable number of workers
 	if err = domainController.Run(2, stopCh); err != nil {
-		klog.Fatalf("Error running domain controller: %s", err.Error())
+		log.Fatalf("Error running domain controller: %s", err.Error())
 	}
 
 	sig := <-sigs
-	klog.Infof("Received signal %v, exiting.", sig)
+	log.Infof("Received signal %v, exiting.", sig)
 	close(stopCh)
 }
 

@@ -10,6 +10,7 @@ import (
 	informers "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions/banyan/v1alpha1"
 	listers "github.com/cristian-radu/banyan/pkg/generated/listers/banyan/v1alpha1"
 
+	log "github.com/sirupsen/logrus"
 	corev1 "k8s.io/api/core/v1"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -19,7 +20,6 @@ import (
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/record"
 	"k8s.io/client-go/util/workqueue"
-	"k8s.io/klog"
 )
 
 const (
@@ -41,10 +41,10 @@ type Controller struct {
 func NewController(kubeClientSet kubernetes.Interface, domainClientSet clientset.Interface, domainInformer informers.DomainInformer) (*Controller, error) {
 
 	utilruntime.Must(domainscheme.AddToScheme(scheme.Scheme))
-	klog.Info("Creating event broadcaster")
+	log.Info("Creating event broadcaster")
 
 	eventBroadcaster := record.NewBroadcaster()
-	eventBroadcaster.StartLogging(klog.Infof)
+	eventBroadcaster.StartLogging(log.Infof)
 	eventBroadcaster.StartRecordingToSink(&typedcorev1.EventSinkImpl{Interface: kubeClientSet.CoreV1().Events("")})
 
 	c := &Controller{
@@ -55,7 +55,7 @@ func NewController(kubeClientSet kubernetes.Interface, domainClientSet clientset
 		lister:          domainInformer.Lister(),
 	}
 
-	klog.Info("Setting up event handlers")
+	log.Info("Setting up event handlers")
 	domainInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
 		AddFunc:    c.addDomain,
 		UpdateFunc: c.updateDomain,
@@ -69,40 +69,40 @@ func NewController(kubeClientSet kubernetes.Interface, domainClientSet clientset
 func (c *Controller) Run(workers int, stopCh <-chan struct{}) error {
 	defer c.workqueue.ShutDown()
 
-	klog.Infof("Starting domain controller")
-	defer klog.Infof("Shutting down domain controller")
+	log.Infof("Starting domain controller")
+	defer log.Infof("Shutting down domain controller")
 
-	klog.Info("Starting workers")
+	log.Info("Starting workers")
 
 	for i := 0; i < workers; i++ {
 		go wait.Until(c.worker, time.Second, stopCh)
 	}
 
-	klog.Info("Workers ready")
+	log.Info("Workers ready")
 
 	<-stopCh
 
-	klog.Info("Workers shutting down")
+	log.Info("Workers shutting down")
 
 	return nil
 }
 
 func (c *Controller) addDomain(obj interface{}) {
 	d := obj.(*banyanv1alpha1.Domain)
-	klog.Infof("Adding domain %s", d.Spec.Name)
+	log.Infof("Adding domain %s", d.Spec.Name)
 	c.enqueueDomain(d)
 }
 
 func (c *Controller) updateDomain(old, cur interface{}) {
 	oldD := old.(*banyanv1alpha1.Domain)
 	curD := cur.(*banyanv1alpha1.Domain)
-	klog.Infof("Updating domain %s", oldD.Spec.Name)
+	log.Infof("Updating domain %s", oldD.Spec.Name)
 	c.enqueueDomain(curD)
 }
 
 func (c *Controller) deleteDomain(obj interface{}) {
 	d := obj.(*banyanv1alpha1.Domain)
-	klog.Infof("Deleting domain %s", d.Spec.Name)
+	log.Infof("Deleting domain %s", d.Spec.Name)
 	c.enqueueDomain(d)
 }
 
@@ -148,7 +148,7 @@ func (c *Controller) syncHandler(key string) error {
 		return nil
 	}
 
-	klog.Info("syncing domain: %s in namespace: %s", name, namespace)
+	log.Info("syncing domain: %s in namespace: %s", name, namespace)
 
 	// ToDo: Check if the domain exists in the cache. Sync could have been triggered by an object deletion.
 	// domain, err := c.lister.Domains(namespace).Get(name)
