@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: cristianradu/banyan
-  tag: 27643dc
+  tag: "5399269"
   pullPolicy: Always
 
 imagePullSecrets: []
