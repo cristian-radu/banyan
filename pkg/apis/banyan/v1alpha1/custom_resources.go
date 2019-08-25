@@ -5,34 +5,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const (
-	banyanGroup   = "banyan.argonauts.dev"
-	banyanVersion = "v1alpha1"
-
-	domainKind     = "Domain"
-	domainSingular = "domain"
-	domainPlural   = "domains"
-	domainListKind = "DomainList"
-	domainFullName = domainPlural + "." + banyanGroup
-)
-
 //DomainCRD holds the representation and validation options for the Domain CustomResourceDefinition
 var DomainCRD = &apiextensionsv1beta1.CustomResourceDefinition{
 	TypeMeta: metav1.TypeMeta{
-		Kind:       domainKind,
-		APIVersion: banyanVersion,
+		Kind:       DomainKind,
+		APIVersion: BanyanVersion,
 	},
 	ObjectMeta: metav1.ObjectMeta{
-		Name: domainFullName,
+		Name: DomainFullName,
 	},
 	Spec: apiextensionsv1beta1.CustomResourceDefinitionSpec{
-		Group:   banyanGroup,
-		Version: banyanVersion,
+		Group:   BanyanGroup,
+		Version: BanyanVersion,
 		Names: apiextensionsv1beta1.CustomResourceDefinitionNames{
-			Singular:   domainSingular,
-			Plural:     domainPlural,
-			Kind:       domainKind,
-			ListKind:   domainListKind,
+			Singular:   DomainSingular,
+			Plural:     DomainPlural,
+			Kind:       DomainKind,
+			ListKind:   DomainListKind,
 			Categories: []string{"banyan"},
 		},
 		Scope: apiextensionsv1beta1.NamespaceScoped,
