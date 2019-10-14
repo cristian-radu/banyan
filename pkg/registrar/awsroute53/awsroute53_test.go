@@ -3,6 +3,8 @@ package awsroute53
 import (
 	"testing"
 
+	"github.com/cristian-radu/banyan/pkg/apis/banyan/v1alpha1"
+
 	"github.com/aws/aws-sdk-go/service/route53domains"
 	"github.com/aws/aws-sdk-go/service/route53domains/route53domainsiface"
 )
@@ -16,20 +18,27 @@ func (m mockedDomainAvailability) CheckDomainAvailability(input *route53domains.
 	return m.Response, nil
 }
 
-func TestIsDomainAvailable(t *testing.T) {
+func TestIsNameAvailable(t *testing.T) {
 	cases := []struct {
-		DomainName     string
+		Domain         v1alpha1.Domain
 		Response       *route53domains.CheckDomainAvailabilityOutput
 		ExpectedResult bool
 	}{
 		{
-			"testdomain1",
+			v1alpha1.Domain{
+				Spec: v1alpha1.DomainSpec{
+					Name: "testdomain1",
+				},
+			},
 			&domainAvailable,
 			true,
 		},
 		{
-			"testdomain2",
-			&domainUnavailable,
+			v1alpha1.Domain{
+				Spec: v1alpha1.DomainSpec{
+					Name: "testdomain2",
+				},
+			}, &domainUnavailable,
 			false,
 		},
 	}
@@ -38,12 +47,12 @@ func TestIsDomainAvailable(t *testing.T) {
 		r53 := AWSRoute53{
 			client: mockedDomainAvailability{Response: c.Response},
 		}
-		check, err := r53.IsNameAvailable(c.DomainName)
+		check, err := r53.IsNameAvailable(c.Domain)
 		if err != nil {
 			t.Errorf("Test failed with error: %s", err.Error())
 		}
 		if check != c.ExpectedResult {
-			t.Errorf("Domain: %s does not match expected value: %t", c.DomainName, c.ExpectedResult)
+			t.Errorf("Domain: %s does not match expected value: %t", c.Domain.Spec.Name, c.ExpectedResult)
 		}
 	}
 
