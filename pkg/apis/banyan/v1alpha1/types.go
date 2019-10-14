@@ -22,7 +22,7 @@ type Domain struct {
 type DomainSpec struct {
 	Name                            string        `json:"name"`
 	AutoRenew                       bool          `json:"autoRenew"`
-	DurationInYears                 int           `json:"durationInYears"`
+	DurationInYears                 int64         `json:"durationInYears"`
 	AdminContact                    ContactDetail `json:"adminContact"`
 	PrivacyProtectAdminContact      bool          `json:"privacyProtectAdminContact"`
 	RegistrantContact               ContactDetail `json:"registrantContact"`
