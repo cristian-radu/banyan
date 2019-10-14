@@ -42,17 +42,185 @@ var DomainCRD = &apiextensionsv1beta1.CustomResourceDefinition{
 						Type: "object",
 						Properties: map[string]apiextensionsv1beta1.JSONSchemaProps{
 							"Name": {
-								Type: "string",
+								Type:    "string",
+								Pattern: "^[a-zA-Z0-9.-]*$",
+							},
+							"AutoRenew": {
+								Type: "boolean",
+							},
+							"DurationInYears": {
+								Type: "integer",
+							},
+							"AdminContact": {
+								Type: "object",
+								Properties: map[string]apiextensionsv1beta1.JSONSchemaProps{
+									"ContactType": {
+										Type: "string",
+										Enum: []apiextensionsv1beta1.JSON{
+											{
+												Raw: []byte(`"person"`),
+											},
+											{
+												Raw: []byte(`"organization"`),
+											},
+										},
+									},
+									"FirstName": {
+										Type: "string",
+									},
+									"LastName": {
+										Type: "string",
+									},
+									"AddressLine1": {
+										Type: "string",
+									},
+									"AddressLine2": {
+										Type: "string",
+									},
+									"City": {
+										Type: "string",
+									},
+									"CountryCode": {
+										Type: "string",
+									},
+									"Email": {
+										Type: "string",
+									},
+									"Fax": {
+										Type: "string",
+									},
+									"OrganizationName": {
+										Type: "string",
+									},
+									"PhoneNumber": {
+										Type: "string",
+									},
+									"State": {
+										Type: "string",
+									},
+									"ZipCode": {
+										Type: "string",
+									},
+								},
+							},
+							"PrivacyProtectAdminContact": {
+								Type: "boolean",
+							},
+							"RegistrantContact": {
+								Type: "object",
+								Properties: map[string]apiextensionsv1beta1.JSONSchemaProps{
+									"ContactType": {
+										Type: "string",
+										Enum: []apiextensionsv1beta1.JSON{
+											{
+												Raw: []byte(`"person"`),
+											},
+											{
+												Raw: []byte(`"organization"`),
+											},
+										},
+									},
+									"FirstName": {
+										Type: "string",
+									},
+									"LastName": {
+										Type: "string",
+									},
+									"AddressLine1": {
+										Type: "string",
+									},
+									"AddressLine2": {
+										Type: "string",
+									},
+									"City": {
+										Type: "string",
+									},
+									"CountryCode": {
+										Type: "string",
+									},
+									"Email": {
+										Type: "string",
+									},
+									"Fax": {
+										Type: "string",
+									},
+									"OrganizationName": {
+										Type: "string",
+									},
+									"PhoneNumber": {
+										Type: "string",
+									},
+									"State": {
+										Type: "string",
+									},
+									"ZipCode": {
+										Type: "string",
+									},
+								},
+							},
+							"PrivacyProtectRegistrantContact": {
+								Type: "boolean",
+							},
+							"TechContact": {
+								Type: "object",
+								Properties: map[string]apiextensionsv1beta1.JSONSchemaProps{
+									"ContactType": {
+										Type: "string",
+										Enum: []apiextensionsv1beta1.JSON{
+											{
+												Raw: []byte(`"person"`),
+											},
+											{
+												Raw: []byte(`"organization"`),
+											},
+										},
+									},
+									"FirstName": {
+										Type: "string",
+									},
+									"LastName": {
+										Type: "string",
+									},
+									"AddressLine1": {
+										Type: "string",
+									},
+									"AddressLine2": {
+										Type: "string",
+									},
+									"City": {
+										Type: "string",
+									},
+									"CountryCode": {
+										Type: "string",
+									},
+									"Email": {
+										Type: "string",
+									},
+									"Fax": {
+										Type: "string",
+									},
+									"OrganizationName": {
+										Type: "string",
+									},
+									"PhoneNumber": {
+										Type: "string",
+									},
+									"State": {
+										Type: "string",
+									},
+									"ZipCode": {
+										Type: "string",
+									},
+								},
+							},
+							"PrivacyProtectTechContact": {
+								Type: "boolean",
 							},
 						},
+						Required: []string{"Name"},
 					},
 					"status": apiextensionsv1beta1.JSONSchemaProps{
 						Type: "object",
-						Properties: map[string]apiextensionsv1beta1.JSONSchemaProps{
-							"Registration": {
-								Type: "string",
-							},
-						},
 					},
 				},
 			},
