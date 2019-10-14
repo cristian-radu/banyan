@@ -35,3 +35,11 @@ type DomainList struct {
 
 	Items []Domain `json:"items"`
 }
+
+func (d Domain) GetKind() string {
+	return DomainKind
+}
+
+func (d Domain) GetName() string {
+	return d.GetObjectMeta().GetName()
+}
