@@ -1,6 +1,8 @@
 package v1alpha1
 
 import (
+	"time"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -31,7 +33,24 @@ type DomainSpec struct {
 
 // DomainStatus describes the status of a Domain resource
 type DomainStatus struct {
-	Registration string `json:"registration"`
+	StatusList        []string      `json:"statusList"`
+	Nameservers       []Nameserver  `json:"nameservers"`
+	RegistrarName     string        `json:"registrarName"`
+	RegistrarURL      string        `json:"registrarURL"`
+	Reseller          string        `json:"reseller"`
+	CreationDate      time.Time     `json:"creationTimestamp"`
+	ExpirationDate    time.Time     `json:"expirationTimestamp"`
+	UpdatedDate       time.Time     `json:"updatedTimestamp"`
+	AutoRenew         bool          `json:"autoRenew"`
+	AbuseContactEmail string        `json:"abuseContactEmail"`
+	AbuseContactPhone string        `json:"abuseContactPhone"`
+	AdminContact      ContactDetail `json:"adminContact"`
+	AdminPrivacy      bool          `json:"adminPrivacy"`
+	RegistrantContact ContactDetail `json:"registrantContact"`
+	RegistrantPrivacy bool          `json:"registrantPrivacy"`
+	TechContact       ContactDetail `json:"techContact"`
+	TechPrivacy       bool          `json:"techPrivacy"`
+	WhoIsServer       string        `json:"whoIsServer"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -61,6 +80,11 @@ type ContactDetail struct {
 	PhoneNumber      string `json:"phoneNumber"`
 	State            string `json:"state"`
 	ZipCode          string `json:"zipCode"`
+}
+
+type Nameserver struct {
+	Name    string   `json:"name"`
+	GlueIps []string `json:"glueIps"`
 }
 
 func (d Domain) GetKind() string {
