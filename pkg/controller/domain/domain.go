@@ -9,9 +9,13 @@ import (
 	domainscheme "github.com/cristian-radu/banyan/pkg/generated/clientset/versioned/scheme"
 	informers "github.com/cristian-radu/banyan/pkg/generated/informers/externalversions/banyan/v1alpha1"
 	listers "github.com/cristian-radu/banyan/pkg/generated/listers/banyan/v1alpha1"
+	"github.com/cristian-radu/banyan/pkg/ownership"
+	kubernetesownership "github.com/cristian-radu/banyan/pkg/ownership/kubernetes"
+	"github.com/cristian-radu/banyan/pkg/registrar"
 
 	log "github.com/sirupsen/logrus"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/kubernetes"
@@ -35,6 +39,8 @@ type Controller struct {
 	eventRecorder   record.EventRecorder
 	lister          listers.DomainLister
 	workqueue       workqueue.RateLimitingInterface
+	ownershipStore  ownership.Store
+	registrar       registrar.Interface
 }
 
 // NewController creates a new Domain Controller.
@@ -47,12 +53,15 @@ func NewController(kubeClientSet kubernetes.Interface, domainClientSet clientset
 	eventBroadcaster.StartLogging(log.Infof)
 	eventBroadcaster.StartRecordingToSink(&typedcorev1.EventSinkImpl{Interface: kubeClientSet.CoreV1().Events("")})
 
+	store := kubernetesownership.NewStore(kubeClientSet)
+
 	c := &Controller{
 		kubeClientSet:   kubeClientSet,
 		domainClientSet: domainClientSet,
 		eventRecorder:   eventBroadcaster.NewRecorder(scheme.Scheme, corev1.EventSource{Component: controllerName}),
 		workqueue:       workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), workqueueName),
 		lister:          domainInformer.Lister(),
+		ownershipStore:  store,
 	}
 
 	log.Info("Setting up event handlers")
@@ -150,23 +159,36 @@ func (c *Controller) syncHandler(key string) error {
 
 	log.Info("syncing domain: %s in namespace: %s", name, namespace)
 
-	// ToDo: Check if the domain exists in the cache. Sync could have been triggered by an object deletion.
-	// domain, err := c.lister.Domains(namespace).Get(name)
-	// if err != nil {
-	// 	if errors.IsNotFound(err) {
-	// Check if we own this domain and delete it from the provider if we do.
-	// Check for errors during deletion. Return the error to requeue the domain for processing.
-	// Record an info event.
-	// 		return nil
-	// 	}
-	// 	return err
-	// }
+	//Sync triggered by an object deletion.
+	domain, err := c.lister.Domains(namespace).Get(name)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			// As a safety precaution, check if we own this domain.
+			if owned := c.ownershipStore.Check(domain); !owned {
+				log.Warningf("will not delete domain: %s, not under banyan ownership")
+			}
+			// Delete it from the provider
+			// Check for errors during deletion. Return the error to requeue the domain for processing.
+			// Remove ownership from the store.
+			// Record an info event.
+			// 		return nil
+			// 	}
+			// 	return err
+			// }
+		}
+	}
+
+	//Sync triggered by an object addition.
 
 	// ToDo: Try to get the domain from the provider.
+
 	// Create the domain if not found.
 	// Check for errors and return them if we want to requeue the domain for processing.
 	// Record an info event.
 	// Set ownership because we are now managing it.
+	c.ownershipStore.Set(domain)
+
+	//Sync triggered by an object update.
 
 	// ToDo: If found, check if we own it before touching it.
 	// Record a warning event if we don't own it. Log a warning message too.
