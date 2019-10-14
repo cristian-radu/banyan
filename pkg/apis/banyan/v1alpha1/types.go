@@ -1,8 +1,6 @@
 package v1alpha1
 
 import (
-	"time"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -38,9 +36,9 @@ type DomainStatus struct {
 	RegistrarName     string        `json:"registrarName"`
 	RegistrarURL      string        `json:"registrarURL"`
 	Reseller          string        `json:"reseller"`
-	CreationDate      time.Time     `json:"creationTimestamp"`
-	ExpirationDate    time.Time     `json:"expirationTimestamp"`
-	UpdatedDate       time.Time     `json:"updatedTimestamp"`
+	CreationDate      metav1.Time   `json:"creationTimestamp"`
+	ExpirationDate    metav1.Time   `json:"expirationTimestamp"`
+	UpdatedDate       metav1.Time   `json:"updatedTimestamp"`
 	AutoRenew         bool          `json:"autoRenew"`
 	AbuseContactEmail string        `json:"abuseContactEmail"`
 	AbuseContactPhone string        `json:"abuseContactPhone"`
