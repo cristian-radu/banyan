@@ -62,6 +62,7 @@ type DomainList struct {
 	Items           []Domain `json:"items"`
 }
 
+// ContactDetail holds contact information for domains
 type ContactDetail struct {
 	// Indicates whether the contact is a person, company, association, or public
 	// organization.
@@ -82,15 +83,18 @@ type ContactDetail struct {
 	ZipCode          string `json:"zipCode"`
 }
 
+// Nameserver holds information about name servers
 type Nameserver struct {
 	Name    string   `json:"name"`
 	GlueIps []string `json:"glueIps"`
 }
 
+// GetKind returns the object kind for a Domain
 func (d Domain) GetKind() string {
 	return DomainKind
 }
 
+// GetName returns the domain name string
 func (d Domain) GetName() string {
 	return d.GetObjectMeta().GetName()
 }
