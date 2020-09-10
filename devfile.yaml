@@ -16,8 +16,8 @@ components:
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
     memoryLimit: 1Gi
     volumes:
-      - name: home
-        containerPath: /home/user
+      - name: gcloud-config
+        containerPath: /.config
     command: ["sleep"]
     args: ["36000"]
   - alias: mysql
