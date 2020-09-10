@@ -1,0 +1,8 @@
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+
+RUN mkdir -p /home/user &&\
+    groupadd -r user &&\
+    useradd -r -g user -d /home/user -s /sbin/bash -c "Tools image user" user
+
+WORKDIR /home/user
+USER user
