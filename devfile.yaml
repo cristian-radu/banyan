@@ -1,0 +1,12 @@
+metadata:
+  name: golang-workspace
+attributes:
+  persistVolumes: "false"
+projects:
+  - name: banyan
+    source:
+      location: "https://github.com/cristian-radu/banyan.git"
+      type: git
+      branch: master
+    clonePath: banyan
+apiVersion: 1.0.0
