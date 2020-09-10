@@ -10,6 +10,9 @@ projects:
       branch: master
     clonePath: banyan
 components:
+  - alias: tools
+    type: dockerimage
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
   - alias: mysql
     type: kubernetes
     reference: mysql.yaml
