@@ -11,6 +11,7 @@ projects:
     clonePath: banyan
 components:
   - alias: tools
+    mountSources: true
     type: dockerimage
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
     memoryLimit: 1Gi
