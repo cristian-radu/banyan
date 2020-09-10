@@ -15,9 +15,9 @@ components:
     type: dockerimage
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
     memoryLimit: 1Gi
-    volumes:
-      - name: gcloud-config
-        containerPath: /.config
+    # volumes:
+    #   - name: gcloud-config
+    #     containerPath: /.config
     command: ["sleep"]
     args: ["36000"]
   - alias: mysql
