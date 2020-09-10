@@ -9,4 +9,11 @@ projects:
       type: git
       branch: master
     clonePath: banyan
+components:
+  - alias: mysql
+    type: kubernetes
+    reference: mysql.yaml
+    selector:
+      app.kubernetes.io/name: mysql
+      app.kubernetes.io/component: database
 apiVersion: 1.0.0
