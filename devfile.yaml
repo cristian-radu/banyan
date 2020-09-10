@@ -15,6 +15,9 @@ components:
     type: dockerimage
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
     memoryLimit: 1Gi
+    volumes:
+      - name: home
+        containerPath: /home/user
     command: ["sleep"]
     args: ["36000"]
   - alias: mysql
