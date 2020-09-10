@@ -2,7 +2,7 @@ FROM gcr.io/google.com/cloudsdktool/cloud-sdk:latest
 
 RUN mkdir -p /home/user &&\
     groupadd -g 1724 -r user &&\
-    useradd -u 1724 -r -g user -d /home/user -s /sbin/bash -c "Tools image user" user
+    useradd -u 1724 -r -g user -d /home/user -s /bin/bash -c "Tools image user" user
 
 WORKDIR /home/user
 USER user
