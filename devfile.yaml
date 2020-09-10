@@ -13,6 +13,7 @@ components:
   - alias: tools
     type: dockerimage
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+    memoryLimit: 2048M
   - alias: mysql
     type: kubernetes
     reference: mysql.yaml
