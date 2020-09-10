@@ -14,6 +14,8 @@ components:
     type: dockerimage
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
     memoryLimit: 1Gi
+    command: ["sleep"]
+    args: ["36000"]
   - alias: mysql
     type: kubernetes
     reference: mysql.yaml
