@@ -20,10 +20,10 @@ components:
         containerPath: /home/user
     command: ["sleep"]
     args: ["36000"]
-  - alias: mysql
-    type: kubernetes
-    reference: mysql.yaml
-    selector:
-      app.kubernetes.io/name: mysql
-      app.kubernetes.io/component: database
+  # - alias: mysql
+  #   type: kubernetes
+  #   reference: mysql.yaml
+  #   selector:
+  #     app.kubernetes.io/name: mysql
+  #     app.kubernetes.io/component: database
 apiVersion: 1.0.0
