@@ -1,7 +1,17 @@
 FROM gcr.io/google.com/cloudsdktool/cloud-sdk:latest
 
-RUN mkdir -p /home/user &&\
-    groupadd -g 1724 -r user &&\
-    useradd -u 1724 -r -g 1724 -d /home/user -s /bin/bash -c "Tools image user" user
+RUN mkdir -p /home/user && groupadd -g 1724 -r user &&\
+    useradd -u 1724 -r -g 1724 -d /home/user -s /bin/bash user
+
+RUN apt update && apt upgrade -y && apt install -y vim unzip
+
+RUN curl -L https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip \
+    -o /tmp/terraform_0.13.2_linux_amd64.zip &&\
+    unzip /tmp/terraform_0.13.2_linux_amd64.zip -d /usr/local/bin/
+
+RUN curl -L https://golang.org/dl/go1.15.2.linux-amd64.tar.gz -o /tmp/go1.15.2.linux-amd64.tar.gz &&\
+    tar -C /usr/local -xzf /tmp/go1.15.2.linux-amd64.tar.gz &&\
+    echo "export PATH=$PATH:/usr/local/go/bin" >> /home/user/.profile
+
 WORKDIR /home/user
 USER user

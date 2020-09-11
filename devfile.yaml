@@ -13,7 +13,7 @@ components:
   - alias: tools
     mountSources: true
     type: dockerimage
-    image: cristianradu/gcptools:v5
+    image: cristianradu/gcptools:v7
     memoryLimit: 1Gi
     volumes:
       - name: user-home
