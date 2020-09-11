@@ -1,20 +1,7 @@
-FROM debian:latest
-
-RUN apt-get update && apt-get install -y ca-certificates apt-transport-https gnupg curl wget sudo 
-
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-RUN apt-get update && apt-get install -y google-cloud-sdk
-
-RUN echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_10/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-RUN wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/Debian_10/Release.key -O Release.key
-RUN apt-key add - < Release.key &&\ 
- apt-get update -qq &&\
- apt-get -y install buildah
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:latest
 
 RUN mkdir -p /home/user &&\
     groupadd -g 1724 -r user &&\
-    useradd -u 1724 -r -g sudo -d /home/user -s /bin/bash -c "Tools image user" user
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers    
+    useradd -u 1724 -r -g 1724 -d /home/user -s /bin/bash -c "Tools image user" user
 WORKDIR /home/user
 USER user
