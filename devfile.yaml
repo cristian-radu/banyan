@@ -15,9 +15,9 @@ components:
     type: dockerimage
     image: cristianradu/gcptools:v7
     memoryLimit: 1Gi
-    volumes:
-      - name: user-home
-        containerPath: /home/user
+    # volumes:
+    #   - name: user-home
+    #     containerPath: /home/user
     command: ["sleep"]
     args: ["36000"]
   # - alias: mysql
